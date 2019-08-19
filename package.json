@@ -1,0 +1,18 @@
+{
+  "name": "primeiroprojeto",
+  "version": "1.0.0",
+  "description": "projeto inicial de estudo",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dev",
+    "node.js"
+  ],
+  "author": "Jamesson Sales de Sena",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
