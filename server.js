@@ -7,15 +7,13 @@ app.set('port', port);
 const server = http.createServer(app);
 
 server.listen(port);
-server.on('error', onError);
-server.on('listening', onLinstening);
+//server.on('error', onError);
+//server.on('listening', onLinstening);
 
 console.log('API rodando na porta: ' + port);
 
 function onError(error) {
     console.log('error: '+ onError);
-
-
 }
 
 function onLinstening(lister) {
