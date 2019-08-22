@@ -1,10 +1,13 @@
 'use strict';
 
 const express = require('express');
-const bodyParser = require('body-parser'); 
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose'); 
+
 
 const app = express();
-
+//Conectando no banco de dados
+mongoose.connect("mongodb+srv://admin:admin@cluster0-0xghh.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
