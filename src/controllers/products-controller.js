@@ -6,7 +6,7 @@ mongoose.set('useCreateIndex', true);
 exports.get = (req, res, next) => {
 
     Product
-        .find({ })
+        .find({ active:true}, 'title price slug')
         .then(data => {
             res.status(200).send(data);
         })
