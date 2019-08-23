@@ -1,7 +1,31 @@
 'use strict';
+const mongoose = require('mongoose');
+const Product = mongoose.model('Product');
+mongoose.set('useCreateIndex', true);
+
+exports.get = (req, res, next) => {
+
+    Product
+        .find({ })
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(e => {
+            res.status(400).send(e);
+        });
+
+};
 
 exports.post = (req, res, next) => {
-    res.status(201).send(req.body);
+    var product = new Product(req.body);
+    product
+        .save().
+        then(x => {
+            res.status(201).send("sucesso");
+        }).
+        catch(e => {
+            res.status(400).send(e);
+        });
 };
 exports.put = (req, res, next) => {
     const id = req.params.id;
