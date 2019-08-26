@@ -92,7 +92,18 @@ exports.put = (req, res, next) => {
 };
 
 exports.delete = (req, res, next) => {
-    res.status(200).send({
-        delete: true
+    const id = req.body.id;
+    Product.findOneAndDelete(id)
+   .then(x => {
+        res.status(201).send({
+            message: 'Produto excluido com sucesso!'
+        });
+    }).catch(e => {
+        res.status(400).send({
+            message: 'Erro nao excluir',
+            data: e
+
+        });
     });
+
 };
