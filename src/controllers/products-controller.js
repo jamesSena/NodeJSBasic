@@ -3,7 +3,18 @@ const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
 mongoose.set('useCreateIndex', true);
 
+exports.getById = (req, res, next) => {
 
+    Product
+        .findById(req.params.id)
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(e => {
+            res.status(400).send(e);
+        });
+
+};
 
 exports.getBySlug = (req, res, next) => {
 

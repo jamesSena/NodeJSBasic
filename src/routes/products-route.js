@@ -9,5 +9,6 @@ router.put('/:id', controller.put);
 router.delete('/', controller.delete);
  
 router.get('/:slug', controller.getBySlug);
+router.get('/admin/:id', controller.getById);
 
 module.exports = router;
