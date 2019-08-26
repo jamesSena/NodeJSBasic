@@ -3,6 +3,23 @@ const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
 mongoose.set('useCreateIndex', true);
 
+
+
+exports.getBySlug = (req, res, next) => {
+
+    Product
+        .find({ slug: req.params.slug, active: true }, 'title description price slug tags')
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(e => {
+            res.status(400).send(e);
+        });
+
+};
+
+
+
 exports.get = (req, res, next) => {
 
     Product
