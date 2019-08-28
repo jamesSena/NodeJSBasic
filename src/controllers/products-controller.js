@@ -1,7 +1,11 @@
 'use strict';
 const mongoose = require('mongoose');
+const ValidationContract = require('../validators/fluent-validator');
+
 const Product = mongoose.model('Product');
+
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
 
 
 exports.getByTag = (req, res, next) => {
@@ -59,6 +63,16 @@ exports.get = (req, res, next) => {
 };
 
 exports.post = (req, res, next) => {
+
+    let contract = new ValidationContract();
+    contract.hasMinLen(req.body.title, 3, 'O titulo tem que ter 3 caracter');
+    contract.hasMinLen(req.body.description, 3, 'O description tem que ter 3 caracter');
+
+    if (!contract.isValid()) {
+        res.status(400).send(contract.errors()).end();
+        return;
+    }
+
     var product = new Product(req.body);
     product
         .save().
@@ -93,7 +107,7 @@ exports.put = (req, res, next) => {
 
 exports.delete = (req, res, next) => {
     const id = req.body.id;
-    Product.findOneAndDelete(id)
+    Product.findOneAndRemove(id)
    .then(x => {
         res.status(201).send({
             message: 'Produto excluido com sucesso!'
