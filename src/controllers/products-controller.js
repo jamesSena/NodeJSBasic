@@ -1,6 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
 const ValidationContract = require('../validators/fluent-validator');
+const repository = require('../repositories/product-repository');
 
 const Product = mongoose.model('Product');
 
@@ -9,9 +10,7 @@ mongoose.set('useFindAndModify', false);
 
 
 exports.getByTag = (req, res, next) => {
-
-    Product
-        .find({ tags: req.params.tag, active: true }, 'title description price slug tags')
+    repository.getByTags(req.params.tag)
         .then(data => {
             res.status(200).send(data);
         })
@@ -22,9 +21,7 @@ exports.getByTag = (req, res, next) => {
 };
 
 exports.getById = (req, res, next) => {
-
-    Product
-        .findById(req.params.id)
+    repository.getById(req.params.id)
         .then(data => {
             res.status(200).send(data);
         })
@@ -36,9 +33,8 @@ exports.getById = (req, res, next) => {
 
 exports.getBySlug = (req, res, next) => {
 
-    Product
-        .find({ slug: req.params.slug, active: true }, 'title description price slug tags')
-        .then(data => {
+    repository.getBySlug(req.params.slug)
+    .then(data => {
             res.status(200).send(data);
         })
         .catch(e => {
