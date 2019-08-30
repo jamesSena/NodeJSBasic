@@ -69,10 +69,8 @@ exports.post = (req, res, next) => {
         return;
     }
 
-    var product = new Product(req.body);
-    product
-        .save().
-        then(x => {
+    repository.create(req.body)
+        .then(x => {
             res.status(201).send("sucesso");
         }).
         catch(e => {
@@ -81,24 +79,17 @@ exports.post = (req, res, next) => {
 };
 exports.put = (req, res, next) => {
     const id = req.params.id;
-    Product.findByIdAndUpdate(id, {
-        $set: {
-            title: req.body.title,
-            description: req.body.description,
-            price: req.body.price
-        }
-    }).then(x => {
-        res.status(201).send({
-           message:'Produto atualizado com sucesso!'
+    repository.update(id, req.body)
+        .then(x => {
+            res.status(201).send({
+                message: 'Produto atualizado com sucesso!'
+            });
+        }).catch(e => {
+            res.status(400).send({
+                message: 'Erro na atualização',
+                data: e
+            });
         });
-    }).catch(e => {
-        res.status(400).send({
-            message: 'Erro na atualização',
-            data: e 
-
-        });
-    });
-   
 };
 
 exports.delete = (req, res, next) => {
