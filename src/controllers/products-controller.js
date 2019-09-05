@@ -9,54 +9,37 @@ mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
 
 
-exports.getByTag = (req, res, next) => {
-    repository.getByTags(req.params.tag)
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(e => {
-            res.status(400).send(e);
-        });
 
-};
 
-exports.getById = (req, res, next) => {
-    repository.getById(req.params.id)
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(e => {
-            res.status(400).send(e);
-        });
+exports.get = async (req, res, next) => {
 
-};
-
-exports.getBySlug = (req, res, next) => {
-
-    repository.getBySlug(req.params.slug)
-    .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(e => {
-            res.status(400).send(e);
-        });
+    var data = await repository.get();
+    res.status(200).send(data);
 
 };
 
 
 
-exports.get = (req, res, next) => {
-
-    Product
-        .find({ active:true}, 'title price slug')
-        .then(data => {
-            res.status(200).send(data);
-        })
-        .catch(e => {
-            res.status(400).send(e);
-        });
+exports.getByTag = async (req, res, next) => {
+    var data = await repository.getByTags(req.params.tag);
+    res.status(200).send(data);
 
 };
+
+exports.getById = async (req, res, next) => {
+    var data = await repository.getById(req.params.id);
+    res.status(200).send(data);
+
+};
+
+exports.getBySlug = async (req, res, next) => {
+
+    var data = repository.getBySlug(req.params.slug);
+    res.status(200).send(data);
+
+};
+
+
 
 exports.post = (req, res, next) => {
 
@@ -69,42 +52,24 @@ exports.post = (req, res, next) => {
         return;
     }
 
-    repository.create(req.body)
-        .then(x => {
-            res.status(201).send("sucesso");
-        }).
-        catch(e => {
-            res.status(400).send(e);
-        });
+    repository.create(req.body);
+    res.status(200).send({
+        message: 'Produto atualizado com sucesso!'
+    });
 };
 exports.put = (req, res, next) => {
     const id = req.params.id;
-    repository.update(id, req.body)
-        .then(x => {
-            res.status(201).send({
-                message: 'Produto atualizado com sucesso!'
-            });
-        }).catch(e => {
-            res.status(400).send({
-                message: 'Erro na atualização',
-                data: e
-            });
-        });
+    repository.update(id, req.body);
+    res.status(201).send({
+        message: 'Produto atualizado com sucesso!'
+    });
 };
 
 exports.delete = (req, res, next) => {
     const id = req.body.id;
-    Product.findOneAndRemove(id)
-   .then(x => {
-        res.status(201).send({
-            message: 'Produto excluido com sucesso!'
-        });
-    }).catch(e => {
-        res.status(400).send({
-            message: 'Erro nao excluir',
-            data: e
-
-        });
+    Product.findOneAndRemove(id);
+    res.status(201).send({
+        message: 'Produto excluido com sucesso!'
     });
 
 };
