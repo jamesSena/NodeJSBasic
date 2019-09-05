@@ -1,15 +1,13 @@
 'use strict';
 const ValidationContract = require('../validators/fluent-validator');
-const repository = require('../repositories/product-repository');
-
-
-
+const repository = require('../repositories/customer-repository');
 
 
 exports.get = async (req, res, next) => {
     try {
         var data = await repository.get();
         res.status(200).send(data);
+        return;
     } catch (e) {
         res.status(500).send({ error: e });
     }
@@ -23,7 +21,7 @@ exports.getByTag = async (req, res, next) => {
         res.status(200).send(data);
     } catch (e) {
         res.status(500).send({ error: e });
-}
+    }
 
 };
 
@@ -33,7 +31,7 @@ exports.getById = async (req, res, next) => {
         res.status(200).send(data);
     } catch (e) {
         res.status(500).send({ error: e });
-     }
+    }
 
 };
 
@@ -42,7 +40,7 @@ exports.getBySlug = async (req, res, next) => {
         var data = repository.getBySlug(req.params.slug);
         res.status(200).send(data);
     } catch (e) {
-        res.status(500).send({error:e});
+        res.status(500).send({ error: e });
     }
 
 
@@ -53,8 +51,9 @@ exports.getBySlug = async (req, res, next) => {
 exports.post = (req, res, next) => {
     try {
         let contract = new ValidationContract();
-        contract.hasMinLen(req.body.title, 3, 'O titulo tem que ter 3 caracter');
-        contract.hasMinLen(req.body.description, 3, 'O description tem que ter 3 caracter');
+        contract.hasMinLen(req.body.name, 3, 'O name tem que ter 3 caracter');
+        contract.isEmail(req.body.email, 'Email inválido');
+        contract.hasMinLen(req.body.password, 6, 'O password tem que ter 3 caracter');
 
         if (!contract.isValid()) {
             res.status(400).send(contract.errors()).end();
@@ -63,14 +62,15 @@ exports.post = (req, res, next) => {
 
         repository.create(req.body);
         res.status(200).send({
-            message: 'Produto atualizado com sucesso!'
+            message: 'Cliente criado com sucesso!'
         });
     } catch (e) {
+        console.log('erro: ' + e);
         res.status(500).send({
             error: e
         });
     }
-    
+
 };
 exports.put = (req, res, next) => {
     try {
@@ -82,7 +82,8 @@ exports.put = (req, res, next) => {
     } catch (e) {
         res.status(500).send({
             error: e
-        });}
+        });
+    }
 
 };
 
@@ -98,6 +99,6 @@ exports.delete = (req, res, next) => {
             error: e
         });
     }
-    
+
 
 };

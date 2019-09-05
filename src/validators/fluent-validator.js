@@ -19,9 +19,9 @@ ValidationContract.prototype.hasMaxLen = (value, max, message) => {
     if (!value || value.length > max)
         errors.push({ message: message });
 };
-ValidationContract.prototype.isEmail= (value, message) => {
+ValidationContract.prototype.isEmail = (value, message) => {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(String(email).toLowerCase()))
+    if (!re.test(String(value).toLowerCase()))
         errors.push({ message: message });
 };
 
