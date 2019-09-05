@@ -11,6 +11,8 @@ const app = express();
 mongoose.connect("mongodb+srv://admin:admin@cluster0-0xghh.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true });
 
 const Product = require('./models/product');
+const Customer = require('./models/customer');
+const Order = require('./models/order');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
