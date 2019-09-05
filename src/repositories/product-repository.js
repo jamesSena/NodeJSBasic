@@ -27,12 +27,12 @@ exports.getByTags = async (tag) => {
 
 };
 
-exports.create = (data) => {
+exports.create = async (data) => {
     var product = new Product(data);
-    product.save();
+    await product.save();
 };
 exports.update = async (id, data) => {
-    Product.findByIdAndUpdate(id, {
+    await Product.findByIdAndUpdate(id, {
         $set: {
             title: data.title,
             description: data.description,
