@@ -9,7 +9,10 @@ exports.create = async (data) => {
 };
 
 exports.get = async () => {
-    return await Model.find({}).populate('customer');
+    return await Model.find({})
+        .populate('customer')
+        .populate('items.product');
+
 };
 
 exports.getBySlug = async (slug) => {
