@@ -3,12 +3,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const config = require('./config');
 
 
 
 const app = express();
 //Conectando no banco de dados
-mongoose.connect("mongodb+srv://admin:admin@cluster0-0xghh.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true });
+mongoose.connect(config.connectionString, { useNewUrlParser: true });
 
 const Product = require('./models/product');
 const Customer = require('./models/customer');
