@@ -4,6 +4,7 @@ global.EMAIL_TMPL = '<strong>{0}</strong>';
 module.exports = {
     connectionString: "mongodb+srv://admin:admin@clusterapi-tvzsb.mongodb.net/test?retryWrites=true&w=majority",
     sendgridKey: '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',
-    containerConnectionString: 'TBD'
+    containerConnectionString: 'TBD',
+    azureStorageConnectionString:"DefaultEndpointsProtocol=https;AccountName=jamesbaltaio;AccountKey=xWWOa0fqEcxtzYQQ0+ZyQ0ftpxFC+Nsmwq0gMBy7v/V0mE55xRHDEGQQYxxYowEBpqUMHardbBflDvQdrOc0tw==;EndpointSuffix=core.windows.net"
 };
 
