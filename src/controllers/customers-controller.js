@@ -2,6 +2,7 @@
 const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/customer-repository');
 const md5 = require('md5');
+const emailService = require('../services/email-service');
 
 exports.get = async (req, res, next) => {
     try {
@@ -59,6 +60,10 @@ exports.post = async (req, res, next) => {
             res.status(400).send(contract.errors()).end();
             return;
         }
+
+     
+
+        emailService.send(req.body.email, 'Bem vindo ao node.js', global.EMAIL_TMPL.replace('{0}', req.body.name));
 
         await repository.create({
             name: req.body.name,
