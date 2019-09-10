@@ -1,7 +1,7 @@
 'use strict';
 const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/customer-repository');
-
+const md5 = require('md5');
 
 exports.get = async (req, res, next) => {
     try {
@@ -48,7 +48,7 @@ exports.getBySlug = async (req, res, next) => {
 
 
 
-exports.post = (req, res, next) => {
+exports.post = async (req, res, next) => {
     try {
         let contract = new ValidationContract();
         contract.hasMinLen(req.body.name, 3, 'O name tem que ter 3 caracter');
@@ -60,7 +60,11 @@ exports.post = (req, res, next) => {
             return;
         }
 
-        repository.create(req.body);
+        await repository.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: md5(req.body.password + global.SALT_KEY)
+        });
         res.status(200).send({
             message: 'Cliente criado com sucesso!'
         });
