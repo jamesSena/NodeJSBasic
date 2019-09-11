@@ -2,9 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/products-controller');
+const authService = require('../services/auth-service');
 
 router.get('/', controller.get);
-router.post('/', controller.post);
+router.post('/', authService.authorize, controller.post);
 router.put('/:id', controller.put);
 router.delete('/', controller.delete);
  

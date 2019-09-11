@@ -3,6 +3,7 @@ const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/customer-repository');
 const md5 = require('md5');
 const emailService = require('../services/email-service');
+const authService = require('../services/auth-service');
 
 exports.get = async (req, res, next) => {
     try {
@@ -47,14 +48,44 @@ exports.getBySlug = async (req, res, next) => {
 
 };
 
+exports.authenticate = async (req, res, next) => {
+    try {
+        const customer = await repository.autheticate({
+            email: req.body.email,
+            password: md5(req.body.password + global.SALT_KEY)
+        });
 
+        if (customer.length <= 0)
+        {
+            res.status(400).send({
+                message: "usuario ou senha invalida"             
+            });
+            return;
+        }
+        const token = await authService.generateToken({ email: customer.email, name: customer.name });
+
+        res.status(200).send({
+            token: token,
+            data: {
+                email: req.body.email,
+                name: req.body.name
+            }
+        });
+    } catch (e) {
+        console.log('erro: ' + e);
+        res.status(500).send({
+            error: e
+        });
+    }
+
+};
 
 exports.post = async (req, res, next) => {
     try {
         let contract = new ValidationContract();
         contract.hasMinLen(req.body.name, 3, 'O name tem que ter 3 caracter');
         contract.isEmail(req.body.email, 'Email inválido');
-        contract.hasMinLen(req.body.password, 6, 'O password tem que ter 3 caracter');
+        contract.hasMinLen(req.body.password, 6, 'O password tem que ter 6 caracter');
 
         if (!contract.isValid()) {
             res.status(400).send(contract.errors()).end();
