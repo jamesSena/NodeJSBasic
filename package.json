@@ -1,7 +1,7 @@
 {
   "name": "primeiroprojeto",
   "version": "1.0.0",
-  "description": "projeto inicial de estudo",
+  "description": "projeto inicial de estudo!",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
