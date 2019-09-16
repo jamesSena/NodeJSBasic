@@ -2,6 +2,7 @@
 const ValidationContract = require('../validators/fluent-validator');
 const repository = require('../repositories/order-repository');
 const guid = require('guid');
+const authSerivce = require('../services/auth-service');
 
 exports.get = async (req, res, next) => {
     try {
@@ -48,15 +49,16 @@ exports.getBySlug = async (req, res, next) => {
 
 
 
-exports.post = (req, res, next) => {
+exports.post = async (req, res, next) => {
     try {
-
-        var data = {
-            customer: req.body.customer,
+        const token = req.body.token || req.query.token || req.headers['x-access-token'];
+        const data = await authSerivce.decodeToken(token);
+        var dataCreate = {
+            customer: data.id,
             number: guid.raw().substring(0, 6),
             items: req.body.items
         };
-        repository.create(data);
+        repository.create(dataCreate);
         res.status(200).send({
             message: 'Pedido criado com sucesso!'
         });

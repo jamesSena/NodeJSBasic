@@ -62,7 +62,13 @@ exports.authenticate = async (req, res, next) => {
             });
             return;
         }
-        const token = await authService.generateToken({ email: customer.email, name: customer.name });
+        const token = await authService.generateToken(
+            {
+                email: customer.email,
+                name: customer.name,
+                id: customer.id
+            }
+        );
 
         res.status(200).send({
             token: token,
