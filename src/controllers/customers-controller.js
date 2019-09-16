@@ -86,6 +86,50 @@ exports.authenticate = async (req, res, next) => {
 
 };
 
+
+
+exports.refreshToken = async (req, res, next) => {
+    try {
+
+        const token = req.body.token || req.query.token || req.headers['x-access-token'];
+        const data = await authSerivce.decodeToken(token);
+
+        const customer = await repository.getById(data.id);
+
+        if (customer.length <= 0) {
+            res.status(400).send({
+                message: "cliente não encontrado"
+            });
+            return;
+        }
+        const tokenData = await authService.generateToken(
+            {
+                email: customer.email,
+                name: customer.name,
+                id: customer.id
+            }
+        );
+
+        res.status(200).send({
+            token: tokenData,
+            data: {
+                email: req.body.email,
+                name: req.body.name
+            }
+        });
+    } catch (e) {
+        console.log('erro: ' + e);
+        res.status(500).send({
+            error: e
+        });
+    }
+
+};
+
+
+
+
+
 exports.post = async (req, res, next) => {
     try {
         let contract = new ValidationContract();
