@@ -22,7 +22,7 @@ exports.authorize = (req, res, next) => {
         jwt.verify(token, global.SALT_KEY, (error, decoded) => {
             if (error) {
                 res.status(401).json({
-                    message: 'Token Inv·lido'
+                    message: 'Token Inv√°lido'
                 });
             } else {
                 next();
@@ -43,14 +43,14 @@ exports.isAdmin = (req, res, next) => {
         jwt.verify(token, global.SALT_KEY, (error, decoded) => {
             if (error) {
                 res.status(401).json({
-                    message: 'Token Inv·lido'
+                    message: 'Token Inv√°lido'
                 });
             } else {
                 if (decoded.roles.includes('admin')) {
                     next();
                 } else {
                     res.status(401).json({
-                        message: 'Est· funcionalidade È apenas para Administradores';
+                        message: 'Est√° funcionalidade √© apenas para Administradores'
                     });
                 }
             }
