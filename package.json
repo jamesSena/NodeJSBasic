@@ -19,7 +19,7 @@
     "guid": "0.0.12",
     "jsonwebtoken": "^7.4.0",
     "md5": "^2.2.1",
-    "mongoose": "^5.6.10",
+    "mongoose": "^5.7.5",
     "sendgrid": "^2.0.0"
   },
   "devDependencies": {
